@@ -182,7 +182,7 @@ body {
   color: #b9c9df;
   font-size: 13px;
 }
-.site-footer .brand-logo { width: 142px; }
+.site-footer .brand-logo { width: 142px; background: #fff; border-radius: 8px; padding: 4px 7px; }
 .site-footer p { margin: 0; }
 @media (max-width: 800px) {
   .nav-links { display: none; }
