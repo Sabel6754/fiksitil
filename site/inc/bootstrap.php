@@ -72,6 +72,14 @@ function flash(?string $msg = null): ?string {
     $m = $_SESSION['flash'] ?? null; unset($_SESSION['flash']); return $m;
 }
 
+
+function avatar_html(string $name, int $id, int $size = 56): string {
+    $cols = ['#F7931E', '#4C8BF5', '#2E9E5B', '#8E5BD6', '#E8590C', '#D6457A'];
+    $parts = preg_split('/\s+/', trim(preg_replace('/\(.*?\)/u', '', $name)));
+    $ini = '';
+    foreach (array_slice($parts, 0, 2) as $w) { $ini .= mb_strtoupper(mb_substr($w, 0, 1)); }
+    return '<span class="avatar" style="width:' . $size . 'px;height:' . $size . 'px;font-size:' . (int)($size * 0.36) . 'px;background:' . $cols[$id % count($cols)] . '">' . e($ini) . '</span>';
+}
 function header_html(string $title = '', string $path = ''): void {
     $me = current_provider();
     $name = cfg('site_name');
@@ -81,18 +89,36 @@ function header_html(string $title = '', string $path = ''): void {
        . '<meta name="theme-color" content="#F7931E">'
        . '<title>' . e($title ? "$title · $name" : "$name · Tout arranger près de chez vous") . '</title>'
        . '<link rel="stylesheet" href="' . $path . '/assets/style.css"></head><body>'
-       . '<header class="top"><a class="logo" href="/"><img src="' . $path . '/assets/logo.png" alt="' . e($name) . '" width="120" height="40"></a><nav>'
-       . '<a href="/providers.php">Services</a>';
+       . '<header class="top"><a class="logo" href="/">' . e($name) . ' <span class="bolt">⚡</span></a><nav>'
+       . '<a class="hide-m" href="/providers.php">Services</a>';
     if ($me) {
         if ($me['is_admin']) echo '<a href="/admin/">Admin</a>';
-        echo '<a href="/dashboard.php">Mon espace</a><a href="/logout.php">Sortir</a>';
+        echo '<a class="hide-m" href="/dashboard.php">Mon espace</a><a href="/logout.php">Sortir</a>';
     } else {
-        echo '<a href="/login.php">Connexion</a><a class="btn small" href="/register.php">Offrir un service</a>';
+        echo '<a class="hide-m" href="/login.php">Connexion</a><a class="btn small" href="/register.php">Offrir un service</a>';
     }
     echo '</nav></header><main>';
     if ($fl) echo '<div class="flash">' . e($fl) . '</div>';
 }
 function footer_html(): void {
     echo '</main><footer><p>' . e(cfg('site_name')) . ' · Pignon, Hinche, Saint-Raphaël et environs</p>'
-       . '<p><a href="' . e(wa_link(cfg('support_whatsapp'), 'Bonjour Fiksitil')) . '">Contacter le support (WhatsApp)</a></p></footer></body></html>';
+       . '<p><a href="' . e(wa_link(cfg('support_whatsapp'), 'Bonjour Fiksitil')) . '">Contacter le support (WhatsApp)</a></p></footer>'
+       . bottom_nav() . '</body></html>';
+}
+
+function bottom_nav(): string {
+    $me = current_provider();
+    $cur = basename(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH)) ?: 'index.php';
+    $items = [
+        ['/', 'index.php', '🏠', 'Accueil'],
+        ['/providers.php', 'providers.php', '🔎', 'Services'],
+        [$me ? '/dashboard.php' : '/register.php', $me ? 'dashboard.php' : 'register.php', '🛠️', $me ? 'Mon espace' : 'Offrir'],
+        [$me ? '/logout.php' : '/login.php', 'login.php', '👤', $me ? 'Sortir' : 'Connexion'],
+    ];
+    $h = '<nav class="tabbar">';
+    foreach ($items as [$href, $file, $ico, $label]) {
+        $on = ($cur === $file || ($file === 'index.php' && $cur === '')) ? ' class="on"' : '';
+        $h .= '<a' . $on . ' href="' . $href . '"><span>' . $ico . '</span>' . $label . '</a>';
+    }
+    return $h . '</nav>';
 }

@@ -1,28 +1,46 @@
 <?php
 require __DIR__ . '/inc/bootstrap.php';
 $cats = db()->query('SELECT * FROM categories ORDER BY id')->fetchAll();
+$top = db()->query("SELECT p.*, c.name AS cat_name, c.icon FROM providers p JOIN categories c ON c.id=p.category_id
+    WHERE p.status='active' AND p.paid_until >= CURDATE() AND p.is_admin=0 ORDER BY p.paid_until DESC, p.id DESC LIMIT 3")->fetchAll();
 header_html();
 ?>
-<section class="hero">
-  <h1>Avec Fiksitil, on arrange tout.</h1>
-  <p>Coiffeur, plombier, électricien, Starlink, caméras, frigo… Trouvez un professionnel près de chez vous, sans passer par un ami d'ami.</p>
-  <a class="btn light" href="/providers.php">Trouver un service</a>
-</section>
-
-<form class="search" action="/providers.php" method="get">
-  <input name="q" placeholder="De quel service avez-vous besoin ?">
-  <select name="zone"><option value="">Toutes les zones</option>
+<form class="sbar" action="/providers.php" method="get">
+  <span>🔎</span>
+  <input name="q" placeholder="De quel service avez-vous besoin ?" aria-label="Recherche">
+  <select name="zone" aria-label="Zone"><option value="">Zones</option>
     <?php foreach (cfg('zones') as $z): ?><option><?= e($z) ?></option><?php endforeach; ?>
   </select>
-  <span></span><button class="btn">Chercher</button>
+  <button>Chercher</button>
 </form>
 
-<h2>Catégories</h2>
-<div class="grid">
-<?php foreach ($cats as $c): ?>
-  <a class="cat" href="/providers.php?cat=<?= (int)$c['id'] ?>"><span><?= e($c['icon']) ?></span><?= e($c['name']) ?></a>
+<section class="hero">
+  <span class="badge">Populaire</span>
+  <h1>Avec Fiksitil, on arrange tout.</h1>
+  <p>Coiffeur, plombier, électricien, Starlink, caméras… un professionnel près de chez vous.</p>
+  <a class="btn light" href="/providers.php">Réserver</a>
+</section>
+<div class="dots"><i></i><i></i><i></i></div>
+
+<div class="secthead"><h2>Nos services</h2><a href="/providers.php">Tout voir</a></div>
+<div class="chips">
+<?php foreach ($cats as $i => $c): ?>
+  <a class="chip<?= $i === 0 ? ' on' : '' ?>" href="/providers.php?cat=<?= (int)$c['id'] ?>"><?= e($c['icon']) ?> <?= e($c['name']) ?></a>
 <?php endforeach; ?>
 </div>
+
+<?php if ($top): ?>
+<div class="secthead"><h2>Pros recommandés</h2><a href="/providers.php">Tout voir</a></div>
+<?php foreach ($top as $p): ?>
+  <a href="/provider.php?id=<?= (int)$p['id'] ?>" style="text-decoration:none;color:inherit">
+  <div class="card pro">
+    <?= avatar_html($p['name'], (int)$p['id']) ?>
+    <div class="info"><h3><?= e($p['name']) ?></h3>
+      <div class="trade"><?= e($p['icon']) ?> <?= e($p['cat_name']) ?> · 📍 <?= e($p['zone']) ?></div></div>
+    <span class="price"><?= htg($p['price']) ?></span>
+  </div></a>
+<?php endforeach; ?>
+<?php endif; ?>
 
 <h2>Comment ça marche ?</h2>
 <ol class="steps">

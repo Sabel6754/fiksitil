@@ -15,21 +15,27 @@ $cats = db()->query('SELECT * FROM categories ORDER BY id')->fetchAll();
 header_html('Services');
 ?>
 <h1>Services</h1>
-<form class="search" method="get">
-  <input name="q" value="<?= e($q) ?>" placeholder="Rechercher…">
-  <select name="cat"><option value="">Toutes catégories</option>
-    <?php foreach ($cats as $c): ?><option value="<?= (int)$c['id'] ?>" <?= $cat === (int)$c['id'] ? 'selected' : '' ?>><?= e($c['name']) ?></option><?php endforeach; ?>
-  </select>
-  <select name="zone"><option value="">Toutes zones</option>
+<form class="sbar" method="get">
+  <span>🔎</span>
+  <input name="q" value="<?= e($q) ?>" placeholder="Rechercher…" aria-label="Recherche">
+  <?php if ($cat): ?><input type="hidden" name="cat" value="<?= $cat ?>"><?php endif; ?>
+  <select name="zone" aria-label="Zone" onchange="this.form.submit()"><option value="">Zones</option>
     <?php foreach (cfg('zones') as $z): ?><option <?= $zone === $z ? 'selected' : '' ?>><?= e($z) ?></option><?php endforeach; ?>
   </select>
-  <button class="btn">Filtrer</button>
+  <button>Filtrer</button>
 </form>
+<div class="chips">
+  <a class="chip<?= !$cat ? ' on' : '' ?>" href="/providers.php?zone=<?= urlencode($zone) ?>">Tous</a>
+  <?php foreach ($cats as $c): ?>
+    <a class="chip<?= $cat === (int)$c['id'] ? ' on' : '' ?>" href="/providers.php?cat=<?= (int)$c['id'] ?>&amp;zone=<?= urlencode($zone) ?>"><?= e($c['icon']) ?> <?= e($c['name']) ?></a>
+  <?php endforeach; ?>
+</div>
 <?php foreach ($list as $p): ?>
   <a href="/provider.php?id=<?= (int)$p['id'] ?>" style="text-decoration:none;color:inherit">
-  <div class="card row">
-    <div><h3><?= e($p['icon']) ?> <?= e($p['name']) ?></h3>
-      <div class="muted"><?= e($p['cat_name']) ?> · 📍 <?= e($p['zone']) ?></div></div>
+  <div class="card pro">
+    <?= avatar_html($p['name'], (int)$p['id']) ?>
+    <div class="info"><h3><?= e($p['name']) ?></h3>
+      <div class="trade"><?= e($p['icon']) ?> <?= e($p['cat_name']) ?> · 📍 <?= e($p['zone']) ?></div></div>
     <span class="price"><?= htg($p['price']) ?></span>
   </div></a>
 <?php endforeach; ?>

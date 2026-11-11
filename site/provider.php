@@ -6,14 +6,23 @@ if (!$p || !is_visible($p)) { http_response_code(404); header_html('Introuvable'
 $err = $_GET['err'] ?? '';
 header_html($p['name']);
 ?>
+<div class="phero">
+  <?= avatar_html($p['name'], (int)$p['id'], 96) ?>
+  <h1><?= e($p['name']) ?></h1>
+  <p class="muted"><?= e($p['icon']) ?> <?= e($p['cat_name']) ?></p>
+</div>
+<div class="stats">
+  <div class="stat"><em>📍</em><b><?= e($p['zone']) ?></b><span>Zone</span></div>
+  <div class="stat"><em>💰</em><b><?= htg($p['price']) ?></b><span><?= e($p['price_note'] ?: 'Tarif') ?></span></div>
+  <div class="stat"><em><?= e($p['icon']) ?></em><b><?= e($p['cat_name']) ?></b><span>Service</span></div>
+</div>
 <div class="card">
-  <h1><?= e($p['icon']) ?> <?= e($p['name']) ?></h1>
-  <p class="muted"><?= e($p['cat_name']) ?> · 📍 <?= e($p['zone']) ?></p>
-  <p><span class="price"><?= htg($p['price']) ?></span> <?= e($p['price_note']) ?></p>
+  <h2 style="margin-top:0">À propos de <?= e($p['name']) ?></h2>
   <p><?= nl2br(e($p['description'])) ?></p>
 </div>
+<a class="btn cta" href="#commande">Commander <?= e(explode(' ', $p['name'])[0]) ?></a>
 
-<h2>Commander à domicile</h2>
+<h2 id="commande">Commander à domicile</h2>
 <?php if ($err): ?><div class="err"><?= e($err) ?></div><?php endif; ?>
 <form class="f card" method="post" action="/order.php">
   <?= csrf_field() ?>

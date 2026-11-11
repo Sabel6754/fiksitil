@@ -8,10 +8,23 @@ import { SectionHeader } from '../components/SectionHeader';
 import { categories, pros } from '../data';
 import { colors, radius, shadow } from '../theme';
 
+const tradeByCategory: Record<string, string[]> = {
+  repair: ['Réparateur'],
+  install: ['Électricien', 'Réparateur'],
+  wiring: ['Électricien'],
+  plumbing: ['Plombier'],
+  paint: ['Peintre'],
+  carpentry: ['Menuisier'],
+};
+
 export default function HomeScreen({ navigation }: any) {
   const [query, setQuery] = useState('');
-  const [active, setActive] = useState('repair');
-  const list = pros.filter((p) => (p.name + p.trade).toLowerCase().includes(query.toLowerCase()));
+  const [active, setActive] = useState('all');
+  const list = pros.filter(
+    (p) =>
+      (p.name + p.trade).toLowerCase().includes(query.toLowerCase()) &&
+      (active === 'all' || tradeByCategory[active]?.includes(p.trade)),
+  );
 
   return (
     <LinearGradient colors={['#FBE3BD', '#FFFFFF']} locations={[0, 0.35]} style={{ flex: 1 }}>
@@ -40,7 +53,7 @@ export default function HomeScreen({ navigation }: any) {
 
           <SectionHeader title="Nos services" action="Tout voir" onAction={() => navigation.navigate('Services')} />
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }}>
-            {categories.map((c) => {
+            {[{ id: 'all', label: 'Tous', icon: 'apps-outline' as const }, ...categories].map((c) => {
               const on = c.id === active;
               return (
                 <Pressable key={c.id} onPress={() => setActive(c.id)} style={[styles.chip, on && styles.chipOn]}>
@@ -54,7 +67,7 @@ export default function HomeScreen({ navigation }: any) {
           <SectionHeader title="Pros recommandés" action="Tout voir" onAction={() => navigation.navigate('ProList')} />
           <View style={{ gap: 12 }}>
             {list.map((p) => <ProCard key={p.id} pro={p} onPress={() => navigation.navigate('ProDetail', { id: p.id })} />)}
-            {list.length === 0 && <Text style={{ color: colors.muted }}>Aucun professionnel trouvé.</Text>}
+            {list.length === 0 && <Text style={{ color: colors.muted }}>Aucun professionnel pour ce service pour le moment.</Text>}
           </View>
         </ScrollView>
       </SafeAreaView>
