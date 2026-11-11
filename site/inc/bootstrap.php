@@ -73,6 +73,9 @@ function flash(?string $msg = null): ?string {
 }
 
 
+function photo_url(int $id): ?string {
+    return is_file(__DIR__ . '/../assets/pros/' . $id . '.jpg') ? '/assets/pros/' . $id . '.jpg' : null;
+}
 function avatar_html(string $name, int $id, int $size = 56): string {
     if (is_file(__DIR__ . '/../assets/pros/' . $id . '.jpg')) {
         return '<img class="avatar" src="/assets/pros/' . $id . '.jpg" alt="' . e($name) . '" width="' . $size . '" height="' . $size . '" loading="lazy" style="width:' . $size . 'px;height:' . $size . 'px">';
@@ -91,7 +94,7 @@ function header_html(string $title = '', string $path = ''): void {
        . '<meta name="viewport" content="width=device-width,initial-scale=1">'
        . '<meta name="theme-color" content="#F7931E">'
        . '<title>' . e($title ? "$title · $name" : "$name · Tout arranger près de chez vous") . '</title>'
-       . '<link rel="stylesheet" href="' . $path . '/assets/style.css"></head><body>'
+       . '<link rel="stylesheet" href="' . $path . '/assets/style.css?v=' . (int)@filemtime(__DIR__ . '/../assets/style.css') . '"></head><body>'
        . '<header class="top"><a class="logo" href="/"><img src="' . $path . '/assets/logo.png?v=2" alt="' . e($name) . '" width="120" height="40"></a><nav>'
        . '<a class="hide-m" href="/providers.php">Services</a>';
     if ($me) {

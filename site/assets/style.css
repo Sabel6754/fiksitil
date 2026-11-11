@@ -44,6 +44,35 @@ body{background:linear-gradient(#FBE3BD 0,#fffaf3 260px) no-repeat,#fffaf3;paddi
 main{padding-top:8px}
 .avatar{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;color:#fff;font-weight:800;flex:none}
 img.avatar{object-fit:cover;background:var(--soft)}
+
+/* ---- Fiche pro (style maquette) ---- */
+.pf-hero{margin:-8px -16px 0;padding:10px 16px 0;background:linear-gradient(#FBE3BD,#fffaf3 90%)}
+.pf-bar{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pf-back{width:42px;height:42px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;text-decoration:none;color:var(--text);box-shadow:0 4px 12px rgba(232,147,58,.2);border:0;flex:none}
+.pf-title{text-align:center;line-height:1.2}.pf-title b{display:block;font-size:17px}.pf-title small{color:var(--muted)}
+.pf-main{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:14px}
+.pf-text{flex:1;min-width:0;padding-bottom:6px}
+.pf-text h1{font-size:24px;margin:4px 0 0;line-height:1.15}
+.pf-text p{margin:4px 0 10px}
+.pf-trade{font-size:13px;color:var(--muted)}
+.price.big{font-size:16px;padding:6px 14px;border-radius:12px;box-shadow:0 4px 10px rgba(232,89,12,.25)}
+.pf-photo img{display:block;width:170px;height:170px;object-fit:cover;border-radius:30px 30px 0 0;box-shadow:0 10px 24px rgba(232,89,12,.22)}
+.pf-photo .avatar{border-radius:30px 30px 0 0;border:0;box-shadow:none}
+.pf-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 -34px;position:relative;z-index:2;transform:translateY(0)}
+.pf-tile{background:rgba(255,255,255,.92);border:2px solid #F7B267;border-radius:18px;padding:10px 6px;text-align:center;box-shadow:0 8px 18px rgba(232,147,58,.18);backdrop-filter:blur(4px)}
+.pf-tile.alt{border-color:#7a4fd6}
+.pf-tile em{display:block;font-style:normal;font-size:20px}.pf-tile b{display:block;font-size:14px}.pf-tile span{font-size:11px;color:var(--muted)}
+.pf-sheet{background:#fff;border-radius:28px 28px 0 0;margin:0 -16px;padding:50px 16px 16px;box-shadow:0 -10px 24px rgba(232,147,58,.1);min-height:300px}
+.pf-tabs{display:flex;background:#f3f3f5;border-radius:16px;padding:4px;gap:4px;margin-bottom:16px}
+.pf-tabs button{flex:1;border:0;background:transparent;border-radius:12px;padding:10px 4px;font:inherit;font-weight:600;color:var(--muted);cursor:pointer}
+.pf-tabs button.on{background:#fff;color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.pf-panel h2{margin:0 0 6px;font-size:19px}
+.pf-who{display:flex;align-items:center;gap:12px;margin-top:16px}
+.pf-fees{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.pf-fee{border:1px solid var(--bd);border-radius:16px;padding:14px;box-shadow:0 4px 12px rgba(232,147,58,.1)}
+.pf-fee b{display:block;font-size:20px;margin:2px 0}
+.pf-panel[hidden]{display:none}
+@media(min-width:700px){.pf-hero,.pf-sheet{margin-left:0;margin-right:0;border-radius:24px}}
 .hide-m{display:none}
 @media(min-width:700px){.hide-m{display:inline}body{padding-bottom:0}.tabbar{display:none!important}}
 
