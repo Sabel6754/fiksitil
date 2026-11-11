@@ -81,7 +81,7 @@ function header_html(string $title = '', string $path = ''): void {
        . '<meta name="theme-color" content="#F7931E">'
        . '<title>' . e($title ? "$title · $name" : "$name · Tout arranger près de chez vous") . '</title>'
        . '<link rel="stylesheet" href="' . $path . '/assets/style.css"></head><body>'
-       . '<header class="top"><a class="logo" href="/">' . e($name) . ' ⚡</a><nav>'
+       . '<header class="top"><a class="logo" href="/"><img src="' . $path . '/assets/logo.png" alt="' . e($name) . '" width="120" height="40"></a><nav>'
        . '<a href="/providers.php">Services</a>';
     if ($me) {
         if ($me['is_admin']) echo '<a href="/admin/">Admin</a>';
