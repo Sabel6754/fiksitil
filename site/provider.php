@@ -6,12 +6,12 @@ if (!$p || !is_visible($p)) { http_response_code(404); header_html('Introuvable'
 $err = $_GET['err'] ?? '';
 $first = explode(' ', $p['name'])[0];
 $photo = photo_url((int)$p['id']);
-header_html($p['name']);
+header_html($p['name'], '', true);
 ?>
 <div class="pf-hero">
   <div class="pf-bar">
     <a class="pf-back" href="/providers.php" aria-label="Retour">←</a>
-    <div class="pf-title"><b><?= e($p['name']) ?></b><small><?= e($p['cat_name']) ?></small></div>
+    <div class="pf-title"><b><?= e($p['name']) ?></b></div>
     <span class="pf-back" style="visibility:hidden"></span>
   </div>
   <div class="pf-main">

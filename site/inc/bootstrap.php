@@ -86,29 +86,48 @@ function avatar_html(string $name, int $id, int $size = 56): string {
     foreach (array_slice($parts, 0, 2) as $w) { $ini .= mb_strtoupper(mb_substr($w, 0, 1)); }
     return '<span class="avatar" style="width:' . $size . 'px;height:' . $size . 'px;font-size:' . (int)($size * 0.36) . 'px;background:' . $cols[$id % count($cols)] . '">' . e($ini) . '</span>';
 }
-function header_html(string $title = '', string $path = ''): void {
+function pro_card(array $p): string {
+    $id = (int)$p['id'];
+    $photo = photo_url($id);
+    $img = $photo
+        ? '<img src="' . e($photo) . '" alt="' . e($p['name']) . '" loading="lazy" width="320" height="320">'
+        : '<span class="pcard-ph">' . avatar_html($p['name'], $id, 96) . '</span>';
+    return '<a class="pcard" href="/provider.php?id=' . $id . '">'
+        . '<div class="pcard-img">' . $img . '<span class="pcard-zone">📍 ' . e($p['zone']) . '</span></div>'
+        . '<div class="pcard-body"><span class="pcard-trade">' . e($p['icon']) . ' ' . e($p['cat_name']) . '</span>'
+        . '<h3>' . e($p['name']) . '</h3>'
+        . '<div class="pcard-foot"><span class="price">' . htg($p['price']) . '</span><span class="pcard-go">Voir le profil →</span></div></div></a>';
+}
+function header_html(string $title = '', string $path = '', bool $wide = false): void {
     $me = current_provider();
     $name = cfg('site_name');
     $fl = flash();
     echo '<!doctype html><html lang="fr"><head><meta charset="utf-8">'
        . '<meta name="viewport" content="width=device-width,initial-scale=1">'
-       . '<meta name="theme-color" content="#F7931E">'
+       . '<meta name="theme-color" content="#FFFFFF">'
        . '<title>' . e($title ? "$title · $name" : "$name · Tout arranger près de chez vous") . '</title>'
+       . '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+       . '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">'
        . '<link rel="stylesheet" href="' . $path . '/assets/style.css?v=' . (int)@filemtime(__DIR__ . '/../assets/style.css') . '"></head><body>'
-       . '<header class="top"><a class="logo" href="/"><img src="' . $path . '/assets/logo.png?v=2" alt="' . e($name) . '" width="120" height="40"></a><nav>'
-       . '<a class="hide-m" href="/providers.php">Services</a>';
+       . '<header class="top"><div class="top-in"><a class="logo" href="/"><img src="' . $path . '/assets/logo.png?v=2" alt="' . e($name) . '" width="132" height="44"></a><nav>'
+       . '<a class="hide-m" href="/providers.php">Services</a><a class="hide-m" href="/#how">Comment ça marche</a>';
     if ($me) {
         if ($me['is_admin']) echo '<a href="/admin/">Admin</a>';
         echo '<a class="hide-m" href="/dashboard.php">Mon espace</a><a href="/logout.php">Sortir</a>';
     } else {
         echo '<a class="hide-m" href="/login.php">Connexion</a><a class="btn small" href="/register.php">Offrir un service</a>';
     }
-    echo '</nav></header><main>';
+    echo '</nav></div></header><main' . ($wide ? ' class="wide"' : '') . '>';
     if ($fl) echo '<div class="flash">' . e($fl) . '</div>';
 }
 function footer_html(): void {
-    echo '</main><footer><p>' . e(cfg('site_name')) . ' · Pignon, Hinche, Saint-Raphaël et environs</p>'
-       . '<p><a href="' . e(wa_link(cfg('support_whatsapp'), 'Bonjour Fiksitil')) . '">Contacter le support (WhatsApp)</a></p></footer>'
+    $name = e(cfg('site_name'));
+    $zones = implode(' · ', array_filter(cfg('zones'), fn($z) => $z !== 'Autre zone'));
+    echo '</main><footer class="foot"><div class="foot-in">'
+       . '<div><img src="/assets/logo.png?v=2" alt="' . $name . '" width="120" height="40"><p>Le service à domicile, simple et près de chez vous. Trouvez un professionnel de confiance en quelques minutes.</p></div>'
+       . '<div><h4>Explorer</h4><a href="/providers.php">Tous les services</a><a href="/#how">Comment ça marche</a><a href="/register.php">Offrir un service</a><a href="/login.php">Espace prestataire</a></div>'
+       . '<div><h4>Zones</h4><p>' . e($zones) . ' et environs</p><h4>Une question ?</h4><a href="' . e(wa_link(cfg('support_whatsapp'), 'Bonjour Fiksitil')) . '">Écrire au support sur WhatsApp</a></div>'
+       . '</div><p class="foot-copy">© ' . date('Y') . ' ' . $name . '. Tous droits réservés.</p></footer>'
        . bottom_nav() . '</body></html>';
 }
 
