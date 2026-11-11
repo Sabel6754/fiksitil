@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = normalize_phone($_POST['phone'] ?? ''); $pass = $_POST['password'] ?? '';
     if (strlen($phone) < 8 || strlen($pass) < 8) $err = 'Téléphone valide et mot de passe de 8 caractères minimum.';
     else {
-        db()->prepare("INSERT INTO providers (name,phone,password_hash,category_id,zone,price,status,is_admin) VALUES ('Admin',?,?,1,'Pillon',0,'active',1)")
+        db()->prepare("INSERT INTO providers (name,phone,password_hash,category_id,zone,price,status,is_admin) VALUES ('Admin',?,?,1,'Pignon',0,'active',1)")
           ->execute([$phone, password_hash($pass, PASSWORD_DEFAULT)]);
         exit('Admin créé. SUPPRIMEZ maintenant install.php, puis <a href="/login.php">connectez-vous</a>.');
     }

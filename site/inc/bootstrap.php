@@ -93,6 +93,6 @@ function header_html(string $title = '', string $path = ''): void {
     if ($fl) echo '<div class="flash">' . e($fl) . '</div>';
 }
 function footer_html(): void {
-    echo '</main><footer><p>' . e(cfg('site_name')) . ' · Pillon, Inch, Saint-Raphaël et environs</p>'
+    echo '</main><footer><p>' . e(cfg('site_name')) . ' · Pignon, Hinche, Saint-Raphaël et environs</p>'
        . '<p><a href="' . e(wa_link(cfg('support_whatsapp'), 'Bonjour Fiksitil')) . '">Contacter le support (WhatsApp)</a></p></footer></body></html>';
 }

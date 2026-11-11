@@ -14,5 +14,5 @@ return [
     'natcash_number' => '509 0000 0000',  // numéro NatCash
     'support_whatsapp' => '50900000000',  // numéro WhatsApp du support, sans + ni espaces
 
-    'zones' => ['Pillon', 'Inch', 'Saint-Raphaël', 'Autre zone'],
+    'zones' => ['Pignon', 'Hinche', 'Saint-Raphaël', 'Autre zone'],
 ];
