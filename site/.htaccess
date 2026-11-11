@@ -1,5 +1,5 @@
 Options -Indexes
-<FilesMatch "^(config\.php|schema\.sql)$">
+<FilesMatch "^(config\.php|schema\.sql|seed_demo\.sql)$">
   Require all denied
 </FilesMatch>
 RewriteEngine On
