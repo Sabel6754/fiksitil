@@ -29,7 +29,11 @@ header_html($p['name'], '', true);
   <div class="pf-tiles">
     <div class="pf-tile"><em>📍</em><b><?= e($p['zone']) ?></b><span>Zone</span></div>
     <div class="pf-tile alt"><em>💰</em><b><?= htg($p['price']) ?></b><span><?= e($p['price_note'] ?: 'Tarif') ?></span></div>
+    <?php if (!empty($p['years'])): ?>
+    <div class="pf-tile"><em>🏅</em><b><?= (int)$p['years'] ?> <?= $p['years'] > 1 ? 'ans' : 'an' ?></b><span>d'expérience</span></div>
+    <?php else: ?>
     <div class="pf-tile"><em><?= e($p['icon']) ?></em><b><?= e($p['cat_name']) ?></b><span>Service</span></div>
+    <?php endif; ?>
   </div>
 </div>
 

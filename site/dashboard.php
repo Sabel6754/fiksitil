@@ -4,7 +4,16 @@ $me = require_login();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_check();
-    $map = ['accept' => 'accepted', 'done' => 'done', 'decline' => 'declined'];
+    if (($_POST['form'] ?? '') === 'profile') {
+        $price = (int)($_POST['price'] ?? 0); $years = (int)($_POST['years'] ?? 0);
+        if ($price < 1) { flash('Indiquez un prix valide.'); header('Location: /dashboard.php'); exit; }
+        db()->prepare('UPDATE providers SET price=?, price_note=?, description=?, years=? WHERE id=?')
+          ->execute([$price, mb_substr(trim($_POST['price_note'] ?? ''), 0, 80), trim($_POST['description'] ?? ''), ($years > 0 && $years <= 60) ? $years : null, $me['id']]);
+        $photoErr = save_photo($_FILES['photo'] ?? [], (int)$me['id']);
+        flash($photoErr ? 'Profil mis à jour, mais la photo n\'a pas été enregistrée : ' . $photoErr : 'Profil mis à jour.');
+        header('Location: /dashboard.php'); exit;
+    }
+    $map =['accept' => 'accepted', 'done' => 'done', 'decline' => 'declined'];
     $act = $_POST['action'] ?? '';
     if (isset($map[$act])) {
         db()->prepare('UPDATE orders SET status=? WHERE id=? AND provider_id=?')->execute([$map[$act], (int)$_POST['order_id'], $me['id']]);
@@ -42,6 +51,20 @@ header_html('Mon espace');
 <div class="card"><b>Commission à régler : <?= htg($due) ?></b>
   <p class="muted"><?= (int)cfg('commission_pct') ?>% sur les services terminés. Réglez par MonCash/NatCash et envoyez la preuve au support.</p></div>
 <?php endif; ?>
+
+<h2>Mon profil</h2>
+<form class="f card" method="post" enctype="multipart/form-data">
+  <?= csrf_field() ?><input type="hidden" name="form" value="profile">
+  <div class="row" style="justify-content:flex-start;gap:14px">
+    <?= avatar_html($me['name'], (int)$me['id'], 72) ?>
+    <label style="flex:1">Photo (portrait, visage visible) <input name="photo" type="file" accept="image/jpeg,image/png,image/webp"></label>
+  </div>
+  <label>Votre prix (HTG) <input name="price" type="number" min="1" required value="<?= (int)$me['price'] ?>"></label>
+  <label>Précision sur le prix <input name="price_note" maxlength="80" value="<?= e($me['price_note'] ?? '') ?>" placeholder="Ex : par coupe, déplacement inclus"></label>
+  <label>Années d'expérience <input name="years" type="number" min="0" max="60" value="<?= e($me['years'] ?? '') ?>"></label>
+  <label>Présentez-vous <textarea name="description" rows="4"><?= e($me['description'] ?? '') ?></textarea></label>
+  <button class="btn">Enregistrer</button>
+</form>
 
 <h2>Demandes de clients</h2>
 <?php foreach ($orders as $o): ?>

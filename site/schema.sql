@@ -16,6 +16,7 @@ CREATE TABLE providers (
   price INT NOT NULL,
   price_note VARCHAR(80) DEFAULT NULL,
   description TEXT,
+  years TINYINT UNSIGNED DEFAULT NULL,
   status ENUM('pending','active','suspended') NOT NULL DEFAULT 'pending',
   paid_until DATE DEFAULT NULL,
   is_admin TINYINT(1) NOT NULL DEFAULT 0,

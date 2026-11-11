@@ -74,11 +74,46 @@ function flash(?string $msg = null): ?string {
 
 
 function photo_url(int $id): ?string {
-    return is_file(__DIR__ . '/../assets/pros/' . $id . '.jpg') ? '/assets/pros/' . $id . '.jpg' : null;
+    $f = __DIR__ . '/../assets/pros/' . $id . '.jpg';
+    return is_file($f) ? '/assets/pros/' . $id . '.jpg?v=' . (int)@filemtime($f) : null;
+}
+/** Enregistre la photo d'un prestataire (recadrée en carré 600x600, réencodée en JPEG). Retourne un message d'erreur ou null. */
+function save_photo(array $file, int $id): ?string {
+    if (($file['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) return null;
+    if ($file['error'] !== UPLOAD_ERR_OK) return $file['error'] === UPLOAD_ERR_INI_SIZE || $file['error'] === UPLOAD_ERR_FORM_SIZE ? 'Photo trop lourde (5 Mo maximum).' : "L'envoi de la photo a échoué.";
+    if ($file['size'] > 5 * 1024 * 1024) return 'Photo trop lourde (5 Mo maximum).';
+    if (!function_exists('imagecreatetruecolor')) return "L'envoi de photo n'est pas disponible sur ce serveur.";
+    $info = @getimagesize($file['tmp_name']);
+    if (!$info || !in_array($info[2], [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_WEBP], true)) return 'Format non accepté : utilisez une photo JPG, PNG ou WebP.';
+    if ($info[0] * $info[1] > 40000000) return 'Image trop grande.';
+    $src = match ($info[2]) {
+        IMAGETYPE_JPEG => @imagecreatefromjpeg($file['tmp_name']),
+        IMAGETYPE_PNG  => @imagecreatefrompng($file['tmp_name']),
+        default        => function_exists('imagecreatefromwebp') ? @imagecreatefromwebp($file['tmp_name']) : false,
+    };
+    if (!$src) return "Impossible de lire cette image.";
+    if ($info[2] === IMAGETYPE_JPEG && function_exists('exif_read_data')) {
+        $ex = @exif_read_data($file['tmp_name']);
+        $rot = [3 => 180, 6 => -90, 8 => 90][$ex['Orientation'] ?? 1] ?? 0;
+        if ($rot && ($r = imagerotate($src, $rot, 0))) { $src = $r; }
+    }
+    $w = imagesx($src); $h = imagesy($src); $s = min($w, $h);
+    $sx = (int)(($w - $s) / 2); $sy = $h > $w ? (int)(($h - $s) * 0.15) : 0; // cadrage vers le haut pour garder le visage
+    $dst = imagecreatetruecolor(600, 600);
+    imagefill($dst, 0, 0, imagecolorallocate($dst, 255, 255, 255));
+    imagecopyresampled($dst, $src, 0, 0, $sx, $sy, 600, 600, $s, $s);
+    $dir = __DIR__ . '/../assets/pros';
+    if (!is_dir($dir)) @mkdir($dir, 0755, true);
+    $ok = imagejpeg($dst, $dir . '/' . $id . '.jpg', 85);
+    imagedestroy($src); imagedestroy($dst);
+    return $ok ? null : "Impossible d'enregistrer la photo.";
+}
+function years_label(?int $y): string {
+    return $y ? $y . ($y > 1 ? ' ans' : ' an') . " d'expérience" : '';
 }
 function avatar_html(string $name, int $id, int $size = 56): string {
-    if (is_file(__DIR__ . '/../assets/pros/' . $id . '.jpg')) {
-        return '<img class="avatar" src="/assets/pros/' . $id . '.jpg" alt="' . e($name) . '" width="' . $size . '" height="' . $size . '" loading="lazy" style="width:' . $size . 'px;height:' . $size . 'px">';
+    if ($u = photo_url($id)) {
+        return '<img class="avatar" src="' . e($u) . '" alt="' . e($name) . '" width="' . $size . '" height="' . $size . '" loading="lazy" style="width:' . $size . 'px;height:' . $size . 'px">';
     }
     $cols = ['#F7931E', '#4C8BF5', '#2E9E5B', '#8E5BD6', '#E8590C', '#D6457A'];
     $parts = preg_split('/\s+/', trim(preg_replace('/\(.*?\)/u', '', $name)));
@@ -94,7 +129,7 @@ function pro_card(array $p): string {
         : '<span class="pcard-ph">' . avatar_html($p['name'], $id, 96) . '</span>';
     return '<a class="pcard" href="/provider.php?id=' . $id . '">'
         . '<div class="pcard-img">' . $img . '<span class="pcard-zone">📍 ' . e($p['zone']) . '</span></div>'
-        . '<div class="pcard-body"><span class="pcard-trade">' . e($p['icon']) . ' ' . e($p['cat_name']) . '</span>'
+        . '<div class="pcard-body"><span class="pcard-trade">' . e($p['icon']) . ' ' . e($p['cat_name']) . (!empty($p['years']) ? ' · ' . (int)$p['years'] . ' ans' : '') . '</span>'
         . '<h3>' . e($p['name']) . '</h3>'
         . '<div class="pcard-foot"><span class="price">' . htg($p['price']) . '</span><span class="pcard-go">Voir le profil →</span></div></div></a>';
 }
