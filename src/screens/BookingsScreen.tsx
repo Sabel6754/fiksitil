@@ -33,7 +33,7 @@ export default function BookingsScreen({ navigation }: any) {
               <Text style={styles.job}>{j.title}</Text>
               <Text style={styles.muted}>{j.date} · {j.time}</Text>
               <View style={styles.pro}>
-                <Avatar name={pro.name} color={pro.color} size={40} />
+                <Avatar name={pro.name} color={pro.color} photo={pro.photo} size={40} />
                 <View style={{ flex: 1 }}>
                   <Text style={{ fontWeight: '700' }}>{pro.name}</Text>
                   <Text style={styles.muted}>★ {pro.rating} ({pro.reviews})</Text>

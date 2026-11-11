@@ -13,7 +13,7 @@ export default function ChatScreen() {
           const pro = getPro(c.proId);
           return (
             <View key={c.id} style={styles.row}>
-              <Avatar name={pro.name} color={pro.color} size={52} />
+              <Avatar name={pro.name} color={pro.color} photo={pro.photo} size={52} />
               <View style={{ flex: 1 }}>
                 <Text style={{ fontWeight: '700', fontSize: 16 }}>{pro.name}</Text>
                 <Text style={{ color: colors.muted }} numberOfLines={1}>{c.last}</Text>

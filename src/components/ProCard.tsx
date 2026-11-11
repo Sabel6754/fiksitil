@@ -7,7 +7,7 @@ import { Avatar } from './Avatar';
 export function ProCard({ pro, onPress }: { pro: Pro; onPress: () => void }) {
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [styles.card, shadow, pressed && { opacity: 0.85 }]}>
-      <Avatar name={pro.name} color={pro.color} size={64} />
+      <Avatar name={pro.name} color={pro.color} photo={pro.photo} size={64} />
       <View style={{ flex: 1 }}>
         <Text style={styles.trade}>{pro.trade}</Text>
         <Text style={styles.name}>{pro.name}</Text>

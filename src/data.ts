@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import type { ComponentProps } from 'react';
+import type { ImageSourcePropType } from 'react-native';
 
 export type IconName = ComponentProps<typeof Ionicons>['name'];
 
@@ -14,6 +15,7 @@ export type Pro = {
   customers: number;
   about: string;
   color: string;
+  photo?: ImageSourcePropType;
 };
 
 export const categories: { id: string; label: string; icon: IconName }[] = [
@@ -29,15 +31,15 @@ export const categories: { id: string; label: string; icon: IconName }[] = [
 
 export const pros: Pro[] = [
   { id: '1', name: 'James Carter', trade: 'Électricien', years: 8, rating: 4.9, reviews: 200, rate: 159, customers: 150,
-    about: "Électricien certifié avec 8 ans d'expérience. Spécialisé dans le câblage résidentiel et commercial, de la rénovation complète à la mise aux normes.", color: '#F7931E' },
+    about: "Électricien certifié avec 8 ans d'expérience. Spécialisé dans le câblage résidentiel et commercial, de la rénovation complète à la mise aux normes.", color: '#F7931E', photo: require('../assets/pros/1.jpg') },
   { id: '2', name: 'Liam Johnson', trade: 'Plombier', years: 12, rating: 4.7, reviews: 312, rate: 200, customers: 280,
-    about: 'Plombier expérimenté : fuites, chauffe-eau, sanitaires et installations neuves. Intervention rapide et devis transparent.', color: '#4C8BF5' },
+    about: 'Plombier expérimenté : fuites, chauffe-eau, sanitaires et installations neuves. Intervention rapide et devis transparent.', color: '#4C8BF5', photo: require('../assets/pros/2.jpg') },
   { id: '3', name: 'Noah Wilson', trade: 'Réparateur', years: 9, rating: 4.9, reviews: 190, rate: 138, customers: 175,
-    about: "Réparation d'appareils électroménagers : lave-linge, réfrigérateur, four, micro-ondes. Pièces d'origine garanties.", color: '#2E9E5B' },
+    about: "Réparation d'appareils électroménagers : lave-linge, réfrigérateur, four, micro-ondes. Pièces d'origine garanties.", color: '#2E9E5B', photo: require('../assets/pros/3.jpg') },
   { id: '4', name: 'Lucas Bennett', trade: 'Menuisier', years: 10, rating: 4.6, reviews: 120, rate: 199, customers: 110,
-    about: 'Menuiserie sur mesure, pose de portes, placards et parquets. Travail soigné et finitions irréprochables.', color: '#8E5BD6' },
+    about: 'Menuiserie sur mesure, pose de portes, placards et parquets. Travail soigné et finitions irréprochables.', color: '#8E5BD6', photo: require('../assets/pros/4.jpg') },
   { id: '5', name: 'Fatima Abdullahi', trade: 'Peintre', years: 6, rating: 4.5, reviews: 102, rate: 120, customers: 90,
-    about: "Peinture intérieure et extérieure, enduits et décoration. Conseils couleurs offerts avec chaque chantier.", color: '#E8590C' },
+    about: "Peinture intérieure et extérieure, enduits et décoration. Conseils couleurs offerts avec chaque chantier.", color: '#E8590C', photo: require('../assets/pros/5.jpg') },
 ];
 
 export type Job = {

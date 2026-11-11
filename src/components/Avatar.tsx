@@ -1,6 +1,11 @@
-import { Text, View } from 'react-native';
+import { Image, ImageSourcePropType, Text, View } from 'react-native';
 
-export function Avatar({ name, color, size = 48 }: { name: string; color: string; size?: number }) {
+type Props = { name: string; color: string; size?: number; photo?: ImageSourcePropType };
+
+export function Avatar({ name, color, size = 48, photo }: Props) {
+  if (photo) {
+    return <Image source={photo} accessibilityLabel={name} style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color }} />;
+  }
   const initials = name.split(' ').map((w) => w[0]).slice(0, 2).join('');
   return (
     <View style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color, alignItems: 'center', justifyContent: 'center' }}>

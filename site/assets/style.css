@@ -43,6 +43,7 @@ body{background:linear-gradient(#FBE3BD 0,#fffaf3 260px) no-repeat,#fffaf3;paddi
 .top{background:rgba(251,227,189,.92);backdrop-filter:blur(8px)}
 main{padding-top:8px}
 .avatar{display:inline-flex;align-items:center;justify-content:center;border-radius:50%;color:#fff;font-weight:800;flex:none}
+img.avatar{object-fit:cover;background:var(--soft)}
 .hide-m{display:none}
 @media(min-width:700px){.hide-m{display:inline}body{padding-bottom:0}.tabbar{display:none!important}}
 

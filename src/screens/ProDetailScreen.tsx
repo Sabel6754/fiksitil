@@ -18,7 +18,7 @@ export default function ProDetailScreen({ route }: any) {
     <View style={{ flex: 1, backgroundColor: colors.bg }}>
       <ScrollView contentContainerStyle={{ paddingBottom: 110 }}>
         <LinearGradient colors={['#FBE3BD', '#FFFFFF']} style={styles.hero}>
-          <Avatar name={pro.name} color={pro.color} size={110} />
+          <Avatar name={pro.name} color={pro.color} photo={pro.photo} size={110} />
           <Text style={styles.name}>{pro.name}</Text>
           <Text style={styles.muted}>{pro.trade} · {pro.years} ans d'expérience</Text>
           <View style={styles.stats}>

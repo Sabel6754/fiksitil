@@ -74,6 +74,9 @@ function flash(?string $msg = null): ?string {
 
 
 function avatar_html(string $name, int $id, int $size = 56): string {
+    if (is_file(__DIR__ . '/../assets/pros/' . $id . '.jpg')) {
+        return '<img class="avatar" src="/assets/pros/' . $id . '.jpg" alt="' . e($name) . '" width="' . $size . '" height="' . $size . '" loading="lazy" style="width:' . $size . 'px;height:' . $size . 'px">';
+    }
     $cols = ['#F7931E', '#4C8BF5', '#2E9E5B', '#8E5BD6', '#E8590C', '#D6457A'];
     $parts = preg_split('/\s+/', trim(preg_replace('/\(.*?\)/u', '', $name)));
     $ini = '';
