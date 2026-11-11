@@ -26,3 +26,16 @@ Accueil, Services, Missions, Messages, Profil, liste des pros, fiche d'un pro.
 - `src/components/` : composants réutilisables
 - `src/data.ts` : données fictives
 - `src/theme.ts` : couleurs et styles
+
+## Site Fiksitil (version à lancer sur Hostinger) — dossier `site/`
+
+PHP + MySQL, sans framework, adapté au mobile. Fonctionnalités : catégories, recherche par zone,
+profils de prestataires, commande à domicile sans compte client (avec lien WhatsApp), espace
+prestataire, administration (activation des places payées par MonCash/NatCash, suivi des commissions).
+
+### Mise en ligne sur Hostinger
+1. hPanel > Bases de données MySQL : créez une base et un utilisateur.
+2. phpMyAdmin : importez `site/schema.sql`.
+3. Copiez `site/config.php.example` en `site/config.php` et remplissez les valeurs (base, numéros MonCash/NatCash, WhatsApp support, prix).
+4. Envoyez le contenu de `site/` dans `public_html/` (Gestionnaire de fichiers ou Git).
+5. Ouvrez `https://votre-domaine/install.php` pour créer l'admin, puis **supprimez `install.php`**.

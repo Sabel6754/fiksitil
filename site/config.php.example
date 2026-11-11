@@ -1,0 +1,18 @@
+<?php
+// Copiez ce fichier en config.php et remplissez les valeurs (infos MySQL dans hPanel > Bases de données).
+return [
+    'db_host' => 'localhost',
+    'db_name' => 'u123456789_fiksitil',
+    'db_user' => 'u123456789_fiksitil',
+    'db_pass' => 'MOT_DE_PASSE',
+
+    'site_name'      => 'Fiksitil',
+    'commission_pct' => 10,        // % prélevé sur chaque service réalisé
+    'plan_price'     => 1000,      // prix d'une place pour un prestataire (HTG)
+    'plan_days'      => 30,        // durée de la place
+    'moncash_number' => '509 0000 0000',  // numéro MonCash qui reçoit les paiements
+    'natcash_number' => '509 0000 0000',  // numéro NatCash
+    'support_whatsapp' => '50900000000',  // numéro WhatsApp du support, sans + ni espaces
+
+    'zones' => ['Pillon', 'Inch', 'Saint-Raphaël', 'Autre zone'],
+];
