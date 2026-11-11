@@ -1,8 +1,8 @@
-# Fixitil
+# Fiksitil
 
-**Avec Fixitil, tout s’arrange.**
+**Avec Fiksitil, tout s’arrange.**
 
-Fixitil est une marketplace locale de services à domicile pour **Pignon, Hinche, Saint-Raphaël** et les zones voisines.
+Fiksitil est une marketplace locale de services à domicile pour **Pignon, Hinche, Saint-Raphaël** et les zones voisines.
 
 ## Première version
 
@@ -12,7 +12,7 @@ La landing page actuelle présente :
 - les catégories principales ;
 - le parcours client en trois étapes ;
 - l’inscription des prestataires intéressés ;
-- le logo officiel Fixitil ;
+- le logo officiel Fiksitil ;
 - une interface responsive compatible avec Hostinger.
 
 ## Stack de départ
