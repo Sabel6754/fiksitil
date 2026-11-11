@@ -40,11 +40,11 @@ prestataire, administration (activation des places payées par MonCash/NatCash, 
 4. Envoyez le contenu de `site/` dans `public_html/` (Gestionnaire de fichiers ou Git).
 5. Ouvrez `https://votre-domaine/install.php` pour créer l'admin, puis **supprimez `install.php`**.
 
-## Page d'accueil statique (Fixitil) — `index.html`
+## Page d'accueil statique (Fiksitil) — `index.html`
 
-**Avec Fixitil, tout s’arrange.**
+**Avec Fiksitil, tout s’arrange.**
 
-Fixitil est une marketplace locale de services à domicile pour **Pignon, Hinche, Saint-Raphaël** et les zones voisines.
+Fiksitil est une marketplace locale de services à domicile pour **Pignon, Hinche, Saint-Raphaël** et les zones voisines.
 
 ### Première version
 
@@ -54,7 +54,7 @@ La landing page actuelle présente :
 - les catégories principales ;
 - le parcours client en trois étapes ;
 - l’inscription des prestataires intéressés ;
-- le logo officiel Fixitil ;
+- le logo officiel Fiksitil ;
 - une interface responsive compatible avec Hostinger.
 
 ### Stack de départ
