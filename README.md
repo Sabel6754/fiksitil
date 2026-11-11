@@ -68,7 +68,7 @@ Cette base servira ensuite à intégrer PHP/Laravel, MySQL, les comptes prestata
 ### Structure
 
 - `index.html`
-- `assets/images/fixitil-logo.png`
+- `assets/images/fiksitil-logo.png`
 - `assets/css/style.css`
 - `assets/js/app.js`
 

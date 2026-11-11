@@ -109,7 +109,7 @@ function header_html(string $title = '', string $path = '', bool $wide = false):
        . '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
        . '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">'
        . '<link rel="stylesheet" href="' . $path . '/assets/style.css?v=' . (int)@filemtime(__DIR__ . '/../assets/style.css') . '"></head><body>'
-       . '<header class="top"><div class="top-in"><a class="logo" href="/"><img src="' . $path . '/assets/logo.png?v=2" alt="' . e($name) . '" width="132" height="44"></a><nav>'
+       . '<header class="top"><div class="top-in"><a class="logo" href="/"><img src="' . $path . '/assets/logo.png?v=3" alt="' . e($name) . '" width="132" height="44"></a><nav>'
        . '<a class="hide-m" href="/providers.php">Services</a><a class="hide-m" href="/#how">Comment ça marche</a>';
     if ($me) {
         if ($me['is_admin']) echo '<a href="/admin/">Admin</a>';
@@ -124,7 +124,7 @@ function footer_html(): void {
     $name = e(cfg('site_name'));
     $zones = implode(' · ', array_filter(cfg('zones'), fn($z) => $z !== 'Autre zone'));
     echo '</main><footer class="foot"><div class="foot-in">'
-       . '<div><img src="/assets/logo.png?v=2" alt="' . $name . '" width="120" height="40"><p>Le service à domicile, simple et près de chez vous. Trouvez un professionnel de confiance en quelques minutes.</p></div>'
+       . '<div><img src="/assets/logo.png?v=3" alt="' . $name . '" width="120" height="40"><p>Le service à domicile, simple et près de chez vous. Trouvez un professionnel de confiance en quelques minutes.</p></div>'
        . '<div><h4>Explorer</h4><a href="/providers.php">Tous les services</a><a href="/#how">Comment ça marche</a><a href="/register.php">Offrir un service</a><a href="/login.php">Espace prestataire</a></div>'
        . '<div><h4>Zones</h4><p>' . e($zones) . ' et environs</p><h4>Une question ?</h4><a href="' . e(wa_link(cfg('support_whatsapp'), 'Bonjour Fiksitil')) . '">Écrire au support sur WhatsApp</a></div>'
        . '</div><p class="foot-copy">© ' . date('Y') . ' ' . $name . '. Tous droits réservés.</p></footer>'
